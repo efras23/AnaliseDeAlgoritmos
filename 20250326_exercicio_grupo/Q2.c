@@ -1,11 +1,64 @@
-// Cálculo da TRANSPOSTA de uma matriz quadrada.
+// Cálculo da TRANSPOSTA de uma matriz 4x4.
+// Para manter a ordem O(n), tratamos a matriz como um único vetor.
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#define TAM 10
-double time0, time_dif;
+#define TAM 4*4
+
+void imprimir_matriz(int matriz[]){
+    int i;
+
+    for(i = 0; i < TAM; i++){
+        printf("\t%d\t", matriz[i]);
+        if (i == 3 || i == 7 || i == 11)
+            printf("\n");
+    }
+}
+
+void transpor_matriz(int matriz[]){
+    int i, temp;
+
+    for(i = 0; i < TAM; i++){
+        if (i > 0 && i < 4) {
+            temp = matriz[i];
+            matriz[i] = matriz[i+3*i];
+            matriz[i+3*i] = temp;
+        }
+        if (i == 6 || i == 11) {
+            temp = matriz[i];
+            matriz[i] = matriz[i+3];
+            matriz[i+3] = temp;
+        }
+        if (i == 7){
+            temp = matriz[i];
+            matriz[i] = matriz[i+3*2];
+            matriz[i+3*2] = temp;
+        }
+    }
+}
 
 int main(int argc, char* argv[]){
+    int matriz[TAM] = {
+                       1, 2, 3, 4,
+                       5, 6, 7, 8,
+                       9, 10, 11, 12,
+                       13, 14, 15, 16
+                       };
+
+    // Impressão matriz "normal"
+    printf("\nM:\n");
+    imprimir_matriz(matriz);
+
+    // Cálculo TRANSPOSTA
+    transpor_matriz(matriz);
+
+    // Impressão matriz
+    printf("\nM_T:\n");
+    imprimir_matriz(matriz);
+
+    return 0;
+}
+
+/*
     int matriz[TAM][TAM] = {
                             1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
                             11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -18,37 +71,4 @@ int main(int argc, char* argv[]){
                             81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
                             91, 92, 93, 94, 95, 96, 97, 98, 99, 100
                             };
-    int matriz_t[TAM][TAM] = { 0 };
-    int i = 0;
-    int j = 0;
-
-    // Cálculo TRANSPOSTA
-    time0 = (double) clock();
-    for(i = 0; i < TAM; i++){
-        for(j = 0; j < TAM; j++){
-            matriz_t[i][j] = matriz[j][i];
-        }
-    }
-
-    // Impressão matriz "normal"
-    printf("\nM\n");
-    for(i = 0; i < TAM; i++){
-        for(j = 0; j < TAM; j++){
-            printf("\t%d\t", matriz[i][j]);
-        }
-        printf("\n");
-    }
-
-    // Impressão matriz TRANSPOSTA
-    printf("\nM_T\n");
-    for(i = 0; i < TAM; i++){
-        for(j = 0; j < TAM; j++){
-            printf("\t%d\t", matriz_t[i][j]);
-        }
-        printf("\n");
-    }
-    time_dif = (double) clock() / CLOCKS_PER_SEC - time0;
-    printf("\nTempo TOTAL: %lf s\n", time_dif);
-
-    return 0;
-}
+*/
